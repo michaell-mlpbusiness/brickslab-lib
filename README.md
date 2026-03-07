@@ -1,38 +1,40 @@
-Brickslab - Platform
+# brickslab-lib
 
+Plateforme stagiaires Brickslab.
+
+## Périmètre
+
+- Getting started
+- Documentation
+- Catalogue composants web/mobile
+- Templates
+- Résultats de tests
+
+## Stack
+
+- `apps/brickslab_catalog`
+- `packages/ui-web`
+- `packages/ui-mobile`
+- `packages/token-contract`
+- `packages/theme-default`
+- `tests/`, `docs/`, `components_docs/`
+
+## Commandes
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+pnpm build:catalog
+pnpm audit
+pnpm test:components
+pnpm test:lint
+pnpm sync:components
 ```
-Voici les commandes à utiliser depuis la racine du monorepo :
-                                                                                   
-  Développement
-                                                                                   
-  pnpm dev              # sync composants + lance le catalog en watch
 
-  Audit qualité (notre runner custom)
+## Règles
 
-  pnpm run audit        # audit silencieux → génère logs/audit-results.json + .csv
-  pnpm audit:verbose    # idem + affiche les tests échoués par composant
-  Ne pas utiliser pnpm audit seul — c'est la commande pnpm native de sécurité npm.
-
-  Build
-
-  pnpm build            # audit → sync → build tous les packages (+ postbuild:
-  test:components)
-  pnpm build:catalog    # audit → sync → build uniquement le catalog Next.js
-
-  Tests unitaires
-
-  pnpm test:lint        # tests de linting
-  pnpm test:components  # tests de composants (aussi lancé automatiquement en postbuild)
-  pnpm test:audit       # suite node:test des seuils qualité (vérifie les scores)
-
-  Résumé du flux build complet
-
-  pnpm build
-    ↓ pnpm run audit        → logs/audit-results.json (reset) + audit-results.csv
-  (append)
-    ↓ pnpm sync:components  → sync les fichiers
-    ↓ pnpm -r build         → build ui-web + catalog
-    ↓ postbuild             → pnpm test:components
-
-
-```
+- Le code source des tools n'est pas embarqué:
+  - pas de page `themebuilder`
+  - pas de page `mockupbuilder`
+- Ce repo sert à apprendre, tester et améliorer la lib en contexte contrôlé.

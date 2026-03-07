@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm sync:components && pnpm dev:catalog",
     "dev:catalog": "pnpm --filter brickslab_catalog dev",
+    "build": "pnpm build:catalog",
     "build:catalog": "pnpm run audit && pnpm sync:components && pnpm --filter brickslab_catalog build",
     "sync:components": "node scripts/sync-components.js",
     "audit": "node tests/audit/audit-runner.js",
