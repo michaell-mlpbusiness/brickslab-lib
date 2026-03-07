@@ -1,0 +1,15 @@
+{
+  "name": "brickslab-lib",
+  "private": true,
+  "packageManager": "pnpm@10.30.0",
+  "scripts": {
+    "dev": "pnpm sync:components && pnpm dev:catalog",
+    "dev:catalog": "pnpm --filter brickslab_catalog dev",
+    "build:catalog": "pnpm run audit && pnpm sync:components && pnpm --filter brickslab_catalog build",
+    "sync:components": "node scripts/sync-components.js",
+    "audit": "node tests/audit/audit-runner.js",
+    "audit:verbose": "node tests/audit/audit-runner.js --verbose",
+    "test:components": "node --test tests/components/**/*.js",
+    "test:lint": "node --test tests/lint/**/*.js"
+  }
+}
