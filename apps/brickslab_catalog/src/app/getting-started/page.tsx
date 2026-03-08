@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { CodeBlock } from "../../catalog/CodeBlock";
-import { FiPackage, FiSettings, FiCode, FiZap, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import { FiPackage, FiSettings, FiCode, FiZap, FiCheckCircle, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
 
 // ── Step card ─────────────────────────────────────────────────────────────────
 function StepCard({
@@ -325,6 +325,32 @@ const MyButton = (props: ButtonProps) => <Button {...props} />;`}
             </CodeBlock>
             <InfoBox>
               Aucune configuration TypeScript supplémentaire n&apos;est requise — les types sont inclus dans le package via <InlineCode>dist/index.d.ts</InlineCode>.
+            </InfoBox>
+          </div>
+        </StepCard>
+
+        {/* 06 – Mise à jour */}
+        <StepCard number="06" icon={<FiRefreshCw size={15} />} title="Mettre à jour la librairie">
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--color-muted)", lineHeight: 1.6 }}>
+              Pour maintenir votre projet à jour, mettez à niveau <InlineCode>@brickslab./ui-web</InlineCode> en même temps que{" "}
+              <InlineCode>@brickslab./theme-default</InlineCode>. Vérifiez d&apos;abord la version publiée, puis appliquez la mise à jour.
+            </p>
+
+            <CodeBlock language="bash" title="Vérifier puis mettre à jour">
+{`# Voir les dernières versions publiées
+npm view @brickslab./ui-web version
+npm view @brickslab./theme-default version
+
+# Mettre à jour vers la dernière version
+npm install @brickslab./ui-web@latest @brickslab./theme-default@latest --legacy-peer-deps
+
+# Ou mettre à jour vers des versions précises (recommandé en production)
+npm install @brickslab./ui-web@2.1.1 @brickslab./theme-default@2.0.0 --legacy-peer-deps`}
+            </CodeBlock>
+
+            <InfoBox variant="warning">
+              Après une mise à jour, relancez vos checks (<InlineCode>npm run build</InlineCode>, tests, lint) et vérifiez les notes de version avant de déployer.
             </InfoBox>
           </div>
         </StepCard>

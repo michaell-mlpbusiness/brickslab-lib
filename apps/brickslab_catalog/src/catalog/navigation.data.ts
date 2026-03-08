@@ -19,7 +19,6 @@ export const navSections: NavSection[] = [
       { label: "Catalogue", href: "/catalog" },
       { label: "Mobile UI", href: "/mobile" },
       { label: "Résultats Tests", href: "/tests" },
-      { label: "Templates", href: "/templates" },
     ],
   },
   {

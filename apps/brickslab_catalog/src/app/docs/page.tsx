@@ -76,6 +76,9 @@ function InlineCode({ children }: { children: React.ReactNode }) {
         borderRadius: 4,
         padding: "1px 6px",
         color: "#CC4A48",
+        whiteSpace: "normal",
+        overflowWrap: "anywhere",
+        wordBreak: "break-word",
       }}
     >
       {children}
@@ -200,30 +203,38 @@ function TokenTable({
           overflow: "hidden",
         }}
       >
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: "var(--c-surface-elevated)" }}>
-              {headers.map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    padding: "8px 12px",
-                    borderBottom: "1px solid var(--c-border)",
-                    textAlign: "left",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "var(--color-muted)",
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody style={{ background: "var(--c-surface)" }}>{children}</tbody>
-        </table>
+        <div style={{ overflowX: "auto" }}>
+          <table
+            style={{
+              width: "100%",
+              minWidth: headers.length >= 3 ? 640 : 520,
+              borderCollapse: "collapse",
+            }}
+          >
+            <thead>
+              <tr style={{ background: "var(--c-surface-elevated)" }}>
+                {headers.map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      padding: "8px 12px",
+                      borderBottom: "1px solid var(--c-border)",
+                      textAlign: "left",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: "var(--color-muted)",
+                    }}
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody style={{ background: "var(--c-surface)" }}>{children}</tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -243,8 +254,8 @@ function Step({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ display: "flex", gap: 20 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+    <div className="docs-step-row" style={{ display: "flex", gap: 20, minWidth: 0 }}>
+      <div className="docs-step-rail" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
         <div
           style={{
             width: 32,
@@ -265,7 +276,7 @@ function Step({
         </div>
         <div style={{ width: 1, flex: 1, background: "var(--c-border)", marginTop: 4 }} />
       </div>
-      <div style={{ paddingBottom: 32, flex: 1 }}>
+      <div className="docs-step-content" style={{ paddingBottom: 32, flex: 1, minWidth: 0 }}>
         <p style={{ margin: "4px 0 12px", fontSize: 14, fontWeight: 700, color: "var(--color-fg)" }}>{title}</p>
         {children}
       </div>
@@ -314,11 +325,74 @@ export default function DocsPage() {
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "48px clamp(16px, 4vw, 40px) 96px" }}>
       <style>{`
+        .docs-nav-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+          margin-bottom: 16px;
+          align-items: stretch;
+        }
+        @media (max-width: 900px) {
+          .docs-nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+          .docs-nav-grid { grid-template-columns: 1fr; }
+        }
+        .docs-two-col-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
+          margin-bottom: 24px;
+          align-items: stretch;
+        }
+        @media (max-width: 760px) {
+          .docs-two-col-grid { grid-template-columns: 1fr; }
+        }
+        .docs-nav-card {
+          height: 100%;
+          min-height: 148px;
+          display: flex !important;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .docs-nav-card-body {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+        .docs-architecture-row {
+          display: grid;
+          grid-template-columns: 160px minmax(0, 1fr);
+        }
+        @media (max-width: 640px) {
+          .docs-architecture-row { grid-template-columns: 1fr; }
+          .docs-architecture-row > div:first-child {
+            border-right: none !important;
+            border-bottom: 1px solid var(--c-border);
+          }
+        }
         .docs-nav-card:hover {
           border-color: var(--c-brand-border) !important;
           background: var(--c-brand-subtle) !important;
         }
         .docs-nav-card:hover .docs-nav-arrow { color: var(--color-brand) !important; }
+        .docs-step-row { min-width: 0; }
+        .docs-step-content { min-width: 0; }
+        .docs-checklist li {
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+        @media (max-width: 640px) {
+          .docs-step-row {
+            display: block !important;
+          }
+          .docs-step-rail {
+            display: none !important;
+          }
+          .docs-step-content {
+            padding-bottom: 22px !important;
+          }
+        }
         .docs-checklist li::marker { color: var(--color-brand); }
       `}</style>
 
@@ -380,14 +454,7 @@ export default function DocsPage() {
       </div>
 
       {/* ── Quick nav cards ──────────────────────────────────────── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: 12,
-          marginBottom: 16,
-        }}
-      >
+      <div className="docs-nav-grid">
         {NAV_CARDS.map(({ href, icon, title, description }) => (
           <a
             key={href}
@@ -409,7 +476,7 @@ export default function DocsPage() {
               <span style={{ color: "var(--color-brand)" }}>{icon}</span>
               <FiArrowRight size={13} className="docs-nav-arrow" style={{ color: "var(--color-muted)", transition: "color 0.15s" }} />
             </div>
-            <div>
+            <div className="docs-nav-card-body">
               <div style={{ fontSize: 13, fontWeight: 700, color: "var(--color-fg)", marginBottom: 3 }}>{title}</div>
               <div style={{ fontSize: 12, color: "var(--color-muted)", lineHeight: 1.5 }}>{description}</div>
             </div>
@@ -548,7 +615,7 @@ export default function DocsPage() {
         <strong>toggle manuel</strong> via classe CSS.
       </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+      <div className="docs-two-col-grid">
         {[
           {
             icon: <FiSun size={16} />,
@@ -736,9 +803,8 @@ function toggleDarkMode(enabled: boolean) {
         ].map(({ rule, detail }, i, arr) => (
           <div
             key={rule}
+            className="docs-architecture-row"
             style={{
-              display: "grid",
-              gridTemplateColumns: "160px 1fr",
               borderBottom: i < arr.length - 1 ? "1px solid var(--c-border)" : "none",
               background: i % 2 === 0 ? "var(--c-surface)" : "var(--c-surface-elevated)",
             }}

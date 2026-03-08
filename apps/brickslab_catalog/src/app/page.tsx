@@ -974,7 +974,7 @@ export default function Home() {
               lineHeight: 1,
             }}
           >
-            Brickslab.
+            Brickslab.Lib
           </AuroraText>
 
           <div

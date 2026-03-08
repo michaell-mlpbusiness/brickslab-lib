@@ -155,6 +155,7 @@ export function Topbar({ sidebarOpen, onToggle }: TopbarProps) {
             <span style={{ color: "var(--color-brand)" }}>Bricks</span>
             <span style={{ color: "var(--color-fg)" }}>lab</span>
             <span style={{ color: "var(--color-brand)" }}>.</span>
+            <span style={{ color: "var(--color-fg)" }}>Lib</span>
           </span>
           <span className="topbar-version" aria-label={`Version @brickslab./ui-web ${uiWebVersion}`}>
             {uiWebVersion}

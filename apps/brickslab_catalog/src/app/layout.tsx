@@ -4,7 +4,7 @@ import { CatalogShell } from "../catalog/CatalogShell";
 import { FooterBar } from "../catalog/FooterBar";
 
 export const metadata: Metadata = {
-  title: "BricksLab Catalog",
+  title: "Brickslab.Lib",
   description: "Visual showcase of @brickslab./ui-web components",
 };
 
