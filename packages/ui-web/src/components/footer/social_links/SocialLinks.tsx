@@ -34,7 +34,7 @@ export function SocialLinks({ links, size = "md" }: SocialLinksProps) {
               display: "var(--display-flex)",
               color: "var(--color-muted)",
             }}
-            className="social-links__item"
+            className="anim"
           >
             <Icon size={iconSize} />
           </a>

@@ -7,13 +7,14 @@ export function TopNav({ items, activePath }: TopNavProps) {
       <ul
         style={{
           display: "flex",
-          gap: 24,
+          gap: "var(--space-6)",
           listStyle: "none",
           padding: 0,
           margin: 0,
-          fontSize: 14,
+          fontSize: "var(--fontsize-sm)",
           alignItems: "center",
         }}
+        className="links"
       >
         {items.map((item) => {
           const isActive = item.href === activePath;
@@ -23,12 +24,13 @@ export function TopNav({ items, activePath }: TopNavProps) {
                 href={item.href}
                 style={{
                   color: isActive ? "var(--color-brand)" : "var(--color-muted)",
-                  fontWeight: isActive ? 600 : 400,
-                  borderBottom: isActive ? "2px solid var(--color-brand)" : "2px solid transparent",
+                  fontWeight: isActive ? "var(--fontweight-semibold)" : "var(--fontweight-normal)",
+                  borderBottom: isActive ? "var(--border-sm) solid var(--color-brand)" : "var(--border-sm) solid transparent",
                   textDecoration: "none",
-                  paddingBottom: 2,
-                  transition: "color 0.15s",
+                  paddingBottom: "var(--space-1)",
                 }}
+                aria-current={isActive ? "page" : undefined}
+                className={isActive ? "anim" : ""}
               >
                 {item.label}
               </a>
