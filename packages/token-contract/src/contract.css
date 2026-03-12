@@ -36,7 +36,7 @@
 
   /* Display style */
   --display-flex: flex;
-
+  
   /* fontsize variables */
   --fontsize-2xs: 10px;
   --fontsize-xs: 12px;
@@ -125,4 +125,23 @@
 
 .card-hover:hover {
   box-shadow: var(--shadow-2)
+}
+
+.social-links__item {
+  transition: var(--color-muted) 0.15s ease;
+}
+
+@media (max-width: 768px) {
+  .footer-legal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-legal__links {
+    margin-left: 0;
+  }
+
+  .social-links {
+    gap: var(--space-2);
+  }
 }

@@ -20,7 +20,7 @@ export function SocialLinks({ links, size = "md" }: SocialLinksProps) {
   const iconSize = sizeMap[size];
 
   return (
-    <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+    <div style={{ display: "var(--display-flex)", gap: "var(--space-3)", alignItems: "center" }}>
       {links.map((link) => {
         const Icon = iconMap[link.platform];
         return (
@@ -29,12 +29,12 @@ export function SocialLinks({ links, size = "md" }: SocialLinksProps) {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={link.platform}
+            aria-label={`Suivez nous sur ${link.platform}`}
             style={{
-              display: "flex",
+              display: "var(--display-flex)",
               color: "var(--color-muted)",
-              transition: "color 0.15s",
             }}
+            className="social-links__item"
           >
             <Icon size={iconSize} />
           </a>

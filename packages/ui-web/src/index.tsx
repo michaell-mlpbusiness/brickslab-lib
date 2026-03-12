@@ -25,6 +25,7 @@ export * from "./components/layout/topbar/Topbar.type";
 export * from "./components/layout/burger_menu/BurgerMenu";
 export * from "./components/layout/burger_menu/BurgerMenu.type";
 export * from "./components/layout/top_nav/TopNav";
+export * from "./components/layout/top_nav/TopNav.type";
 export * from "./components/layout/footer_bar/FooterBar";
 export * from "./components/layout/bento_grid/BentoGrid";
 export * from "./components/layout/bento_grid/BentoGrid.type";
@@ -106,10 +107,15 @@ export * from "./components/ui/theme_toggler/ThemeToggler.type";
 
 // ── Footer ────────────────────────────────────────────────────────────────────
 export * from "./components/footer/footer_links/FooterLinks";
+export * from "./components/footer/footer_links/FooterLinks.type";
 export * from "./components/footer/social_links/SocialLinks";
+export * from "./components/footer/social_links/SocialLinks.type";
 export * from "./components/footer/footer_contact/FooterContact";
+export * from "./components/footer/footer_contact/FooterContact.type";
 export * from "./components/footer/footer_legal/FooterLegal";
+export * from "./components/footer/footer_legal/FooterLegal.type";
 export * from "./components/footer/brand_slogan/BrandSlogan";
+export * from "./components/footer/brand_slogan/BrandSlogan.type";
 
 // ── Sections ──────────────────────────────────────────────────────────────────
 export * from "./components/sections/hero_cta_section/HeroCtaSection";
