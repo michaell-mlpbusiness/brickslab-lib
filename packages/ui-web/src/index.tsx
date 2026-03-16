@@ -118,6 +118,7 @@ export * from "./components/footer/brand_slogan/BrandSlogan";
 export * from "./components/footer/brand_slogan/BrandSlogan.type";
 
 // ── Sections ──────────────────────────────────────────────────────────────────
+export * from "./components/sections/hero_cta_section/HeroCtaSection.type";
 export * from "./components/sections/hero_cta_section/HeroCtaSection";
 export * from "./components/sections/feature_list_section/FeatureListSection";
 export * from "./components/sections/section_header/SectionHeader";

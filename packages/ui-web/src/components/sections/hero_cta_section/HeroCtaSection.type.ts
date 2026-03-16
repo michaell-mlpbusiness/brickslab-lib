@@ -18,7 +18,7 @@ export interface HeroCtaSectionProps {
 
   /** Couleur de l'overlay. Défaut: #000000 */
   overlayColor?: string;
-
+  
   title: string;
   subtitle?: string;
   ctaLabel?: string;
