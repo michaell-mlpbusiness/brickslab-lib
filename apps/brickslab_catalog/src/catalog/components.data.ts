@@ -120,6 +120,14 @@ export const componentsData: ComponentData[] = [
     addedAt: "2026-03-06",
   },
   {
+    label: "SignatureDetails",
+    href: "/components/signaturedetails",
+    section: "Animation",
+    type: "web" as const,
+    description: "Signature grid with hover overlay reveal image zoom and configurable columns",
+    addedAt: "2026-03-16",
+  },
+  {
     label: "Heading",
     href: "/components/heading",
     section: "Typography",

@@ -14,5 +14,8 @@
     "audit:verbose": "node tests/audit/audit-runner.js --verbose",
     "test:components": "node --test tests/components/**/*.js",
     "test:lint": "node --test tests/lint/**/*.js"
+  },
+  "dependencies": {
+    "framer-motion": "^12.36.0"
   }
 }

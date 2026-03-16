@@ -194,6 +194,7 @@ export const navSections: NavSection[] = [
       { label: "Marquee", href: "/components/marquee" },
       { label: "AnimatedList", href: "/components/animatedlist" },
       { label: "AnimatedStack", href: "/components/animatedstack" },
+      { label: "SignatureDetails", href: "/components/signaturedetails" },
     ],
   },
   {

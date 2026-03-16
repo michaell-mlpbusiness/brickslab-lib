@@ -63,6 +63,8 @@ export * from "./components/animation/animated_list/AnimatedList";
 export * from "./components/animation/animated_list/AnimatedList.type";
 export * from "./components/animation/animated_stack/AnimatedStack";
 export * from "./components/animation/animated_stack/AnimatedStack.type";
+export * from "./components/animation/SignatureDetails/SignatureDetails";
+export * from "./components/animation/SignatureDetails/SignatureDetails.types";
 
 // ── Content ───────────────────────────────────────────────────────────────────
 export * from "./components/content/project_description_panel/ProjectDescriptionPanel";
