@@ -128,6 +128,14 @@ export const componentsData: ComponentData[] = [
     addedAt: "2026-03-16",
   },
   {
+    label: "NebulaViewer",
+    href: "/components/nebulaviewer",
+    section: "Animation",
+    type: "web" as const,
+    description: "3D viewer based on <model-viewer> with halo glow model switcher and rotation toggle",
+    addedAt: "2026-03-16",
+  },
+  {
     label: "Heading",
     href: "/components/heading",
     section: "Typography",

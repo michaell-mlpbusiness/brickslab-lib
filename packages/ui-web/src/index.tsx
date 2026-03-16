@@ -1,5 +1,7 @@
 "use client";
 
+import "./model-viewer";
+
 // ── Typographie ───────────────────────────────────────────────────────────────
 export * from "./components/typographie/heading/Heading";
 export * from "./components/typographie/text/Text";
@@ -65,6 +67,8 @@ export * from "./components/animation/animated_stack/AnimatedStack";
 export * from "./components/animation/animated_stack/AnimatedStack.type";
 export * from "./components/animation/SignatureDetails/SignatureDetails";
 export * from "./components/animation/SignatureDetails/SignatureDetails.types";
+export * from "./components/animation/NebulaViewer/NebulaViewer";
+export * from "./components/animation/NebulaViewer/NebulaViewer.types";
 
 // ── Content ───────────────────────────────────────────────────────────────────
 export * from "./components/content/project_description_panel/ProjectDescriptionPanel";

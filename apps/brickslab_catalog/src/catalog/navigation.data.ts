@@ -195,6 +195,7 @@ export const navSections: NavSection[] = [
       { label: "AnimatedList", href: "/components/animatedlist" },
       { label: "AnimatedStack", href: "/components/animatedstack" },
       { label: "SignatureDetails", href: "/components/signaturedetails" },
+      { label: "NebulaViewer", href: "/components/nebulaviewer" },
     ],
   },
   {
