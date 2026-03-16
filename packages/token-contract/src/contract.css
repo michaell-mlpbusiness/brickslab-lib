@@ -1,7 +1,7 @@
 :root {
   /* Align items */
   --align-items-center: center;
-  
+
   --color-bg: #ffffff;
   --color-fg: #0b1220;
   --color-muted: #52607a;
@@ -10,8 +10,8 @@
   /* semantic status colors */
   --color-success: #4ADE80;
   --color-warning: #F59E0B;
-  --color-error:   #CC4A48;
-  --color-info:    #3B82F6;
+  --color-error: #CC4A48;
+  --color-info: #3B82F6;
   --color-transparent: transparent;
 
   /* Border style */
@@ -36,10 +36,11 @@
 
   /* Display style */
   --display-flex: flex;
-  
+
   /* fontsize variables */
   --fontsize-2xs: 10px;
   --fontsize-xs: 12px;
+  --fontsize-exs: 13px;
   --fontsize-sm: 14px;
   --fontsize-medium: 16px;
   --fontsize-lg: clamp(18px, 5vw, 48px);
@@ -68,7 +69,7 @@
   --height-lg: 42px;
   --height-xl: 62px;
   --height-2xl: 150px;
-  
+
   /* Margin Variables */
   --margin-sm: 4px;
   --margin-md: 8px;
@@ -87,6 +88,7 @@
 
   /* Spacing for marging and padding */
   --space-1: 2px;
+  --space-1-2: 3px;
   --space-1-5: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -118,7 +120,7 @@
 
   /* width */
   --widht-4xl: 100%;
-  
+
   /* z-drawer */
   --z-drawer: 50;
 }
@@ -129,6 +131,18 @@
 
 .social-links__item {
   transition: var(--color-muted) 0.15s ease;
+  text-decoration: none;
+  color: var(--color-muted)
+}
+
+.linked {
+  text-decoration: none;
+  color: var(--color-muted);
+  text-decoration: "none";
+}
+
+.separator {
+  margin: var(--space-1-5);
 }
 
 @media (max-width: 768px) {
@@ -137,7 +151,7 @@
     align-items: flex-start;
   }
 
-  .footer-legal__links {
+  .links {
     margin-left: 0;
   }
 

@@ -32,7 +32,6 @@ export function SocialLinks({ links, size = "md" }: SocialLinksProps) {
             aria-label={`Suivez nous sur ${link.platform}`}
             style={{
               display: "var(--display-flex)",
-              color: "var(--color-muted)",
             }}
             className="social-links__item"
           >

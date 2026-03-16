@@ -8,11 +8,11 @@ export function FooterContact({
   title = "Contact",
 }: FooterContactProps) {
   return (
-    <div style={{ fontSize: "var(--fontsize-xs)", color: "var(--color-muted)" }}>
+    <div style={{ fontSize: "var(--fontsize-exs)", color: "var(--color-muted)" }}>
       <div
         style={{
           fontWeight: "var(--fontweight-semibold)",
-          fontSize: "var(--fontsize-xs)",
+          fontSize: "var(--fontsize-sm)",
           color: "var(--color-fg)",
           marginBottom: "var(--margin-md)",
         }}

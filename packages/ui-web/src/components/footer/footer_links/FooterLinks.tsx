@@ -7,7 +7,7 @@ export function FooterLinks({ title, links }: FooterLinksProps) {
         <div
           style={{
             fontWeight: "var(--fontweight-semibold)",
-            fontSize: "var(--fontsize-sm)",
+            fontSize: "var(--fontsize-exs)",
             color: "var(--color-fg)",
             marginBottom: "var(--margin-md)",
           }}
@@ -24,8 +24,8 @@ export function FooterLinks({ title, links }: FooterLinksProps) {
               display: "block",
               color: "var(--color-muted)",
               textDecoration: "none",
-              fontSize: "var(--fontsize-sm)",
-              padding: "clamp(var(--padding-sm), 4wv, 84px) 0",
+              fontSize: "var(--fontsize-exs)",
+              padding: "var(--space-1) 0",
             }}
           >
             {link.label}
