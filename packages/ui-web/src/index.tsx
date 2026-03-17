@@ -3,6 +3,7 @@
 // ── Typographie ───────────────────────────────────────────────────────────────
 export * from "./components/typographie/heading/Heading";
 export * from "./components/typographie/text/Text";
+export * from "./components/typographie/text/Text.type";
 export * from "./components/typographie/text_block/TextBlock";
 
 // ── Carte ─────────────────────────────────────────────────────────────────────
@@ -13,6 +14,9 @@ export * from "./components/carte/bento_card/BentoCard";
 export * from "./components/carte/bento_card/BentoCard.type";
 export * from "./components/carte/social_post_card/SocialPostCard";
 export * from "./components/carte/social_post_card/SocialPostCard.type";
+export * from "./components/carte/testimonials/Testimonials"
+export * from "./components/carte/testimonials/Testimonials.type"
+export * from "./components/carte/testimonials/start_rating/StarRating"
 
 // ── Layout ────────────────────────────────────────────────────────────────────
 export * from "./components/layout/app_shell/AppShell";
