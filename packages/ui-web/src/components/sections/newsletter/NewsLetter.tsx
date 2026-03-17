@@ -1,7 +1,7 @@
 import React from "react";
+
 import { NewsLetterProps, NewsLetterStatus } from "./NewsLetter.type";
-import { Button } from "../../ui/button/Button";
-import { Input } from "../../ui/input/Input";
+import { Button, Input } from "../../..";
 
 // ---------------------------------------------------------------------------
 // Styles
@@ -27,20 +27,19 @@ const styles = `
     line-height: 1.5;
   }
 
-  /* Layout inline : input + bouton sur la même ligne */
+  /* INLINE : input + bouton côte à côte */
   .bl-newsletter__row--inline {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: var(--space-2);
-    flex-wrap: wrap;
   }
   .bl-newsletter__row--inline .bl-newsletter__input-wrap {
     flex: 1;
     min-width: 0;
   }
 
-  /* Layout stacked : colonne */
+  /* STACKED : colonne */
   .bl-newsletter__row--stacked {
     display: flex;
     flex-direction: column;
@@ -48,47 +47,29 @@ const styles = `
   }
 
   /*
-   * Statut final (error | success) :
-   * On force toujours une colonne pour intercaler le message
-   * entre l'input et le bouton, quel que soit le layout initial.
+   * Border override par statut.
+   * On cible [data-bl-input-field] à travers le wrapper
+   * sans toucher Input.type.ts.
+   * !important nécessaire car Input applique ses styles en inline.
    */
-  .bl-newsletter__row--status-final {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
+  .bl-newsletter__input-wrap--error [data-bl-input-field] {
+    border-color: var(--color-error) !important;
+  }
+  .bl-newsletter__input-wrap--success [data-bl-input-field] {
+    border-color: var(--color-success, #16a34a) !important;
   }
 
-  /* Bague visuelle success autour du wrapper d'input */
-  .bl-newsletter__input-success-ring {
-    border-radius: var(--radius-sm);
-    box-shadow: 0 0 0 1.5px var(--color-success, #16a34a);
-  }
-
-  /* Message intercalé entre input et bouton */
-  .bl-newsletter__status-message {
+  /* Messages (succès, erreur API, erreur de validation) */
+  .bl-newsletter__message {
     margin: 0;
     font-size: var(--fontsize-xs);
-    line-height: 1.5;
-    padding: var(--space-1) 0;
-  }
-  .bl-newsletter__status-message--error {
-    color: var(--color-error);
-  }
-  .bl-newsletter__status-message--success {
-    color: var(--color-success, #16a34a);
-  }
-
-  /* Erreur de validation (mode inline, hors statut final) */
-  .bl-newsletter__validation-error {
-    width: 100%;
-    order: 10;
-    margin: 0;
-    font-size: var(--fontsize-xs);
-    color: var(--color-error);
     line-height: 1.4;
   }
+  .bl-newsletter__message--error      { color: var(--color-error); }
+  .bl-newsletter__message--success    { color: var(--color-success, #16a34a); }
+  .bl-newsletter__message--validation { color: var(--color-error); }
 
-  /* Responsive : inline -> stacked sous 480px */
+  /* Responsive inline → stacked sous 480px */
   @media (max-width: 480px) {
     .bl-newsletter__row--inline {
       flex-direction: column;
@@ -98,12 +79,14 @@ const styles = `
 `;
 
 // ---------------------------------------------------------------------------
-// Validation
+// Helpers
 // ---------------------------------------------------------------------------
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
+
+type MessageType = "success" | "error" | "validation";
 
 // ---------------------------------------------------------------------------
 // Composant
@@ -127,48 +110,66 @@ export function NewsLetter({
   style,
   className,
 }: NewsLetterProps) {
-  // -- État interne ----------------------------------------------------------
+  // -- État -----------------------------------------------------------------
   const [internalEmail, setInternalEmail] = React.useState("");
   const [internalStatus, setInternalStatus] = React.useState<NewsLetterStatus>("idle");
   const [validationError, setValidationError] = React.useState<string | undefined>();
 
-  const email = controlledValue ?? internalEmail;
-  const setEmail = controlledOnChange ?? setInternalEmail;
+  // Mode contrôlé vs non-contrôlé
+  const email     = controlledValue    ?? internalEmail;
+  const setEmail  = controlledOnChange ?? setInternalEmail;
+
+  // Statut externe prime sur interne
   const status = externalStatus ?? internalStatus;
 
+  const isError   = status === "error";
+  const isSuccess = status === "success";
   const isLoading = status === "loading";
 
-  // Statut final = l'utilisateur ne peut plus interagir avant reset ou rechargement
-  const isStatusFinal = status === "success" || status === "error";
+  /*
+   * isStatic : l'utilisateur ne peut plus interagir.
+   * Input → readOnly, Button → disabled.
+   */
+  const isStatic = isError || isSuccess;
 
-  // Message à afficher entre input et bouton en statut final
-  const finalMessage: string | undefined =
-    status === "success"
-      ? successMessage
-      : externalError ?? (status === "error" ? "Une erreur est survenue, réessayez." : undefined);
+  // -- Message à afficher ---------------------------------------------------
+  const statusMessage: string | undefined = isSuccess
+    ? successMessage
+    : isError
+    ? (externalError ?? "Une erreur est survenue, réessayez.")
+    : validationError;
 
-  // Erreur de validation (uniquement hors statut final, pour le mode inline)
-  const inlineValidationError =
-    !isStatusFinal && layout === "inline" ? validationError : undefined;
+  const messageType: MessageType | undefined = isSuccess
+    ? "success"
+    : isError
+    ? "error"
+    : validationError
+    ? "validation"
+    : undefined;
 
-  // Erreur passée à l'Input en mode stacked (affichée sous l'input)
-  const inputErrorText =
-    !isStatusFinal && layout === "stacked" ? validationError : undefined;
+  // -- Classe CSS du wrapper input ------------------------------------------
+  /*
+   * On pilote la couleur du border via une classe wrapper
+   * qui cible [data-bl-input-field] sans modifier Input.type.ts.
+   * La validation locale réutilise la classe "error".
+   */
+  const inputWrapClass = [
+    "bl-newsletter__input-wrap",
+    isError || messageType === "validation" ? "bl-newsletter__input-wrap--error"   : "",
+    isSuccess                               ? "bl-newsletter__input-wrap--success" : "",
+  ].filter(Boolean).join(" ");
 
-  // -- Ids a11y --------------------------------------------------------------
+  // -- IDs a11y -------------------------------------------------------------
+  const liveRegionId  = React.useId();
   const descriptionId = React.useId();
-  const liveRegionId = React.useId();
-  const statusMsgId = React.useId();
 
-  // -- Handlers --------------------------------------------------------------
+  // -- Handlers -------------------------------------------------------------
   const handleChange = (val: string) => {
     setEmail(val);
     if (validationError) setValidationError(undefined);
   };
 
   const handleSubmit = async () => {
-    if (isStatusFinal || isLoading) return;
-
     setValidationError(undefined);
 
     if (!isValidEmail(email)) {
@@ -176,6 +177,7 @@ export function NewsLetter({
       return;
     }
 
+    // Statut piloté en externe : on délègue sans toucher l'état interne
     if (externalStatus !== undefined) {
       await onSubmit(email.trim());
       return;
@@ -185,31 +187,86 @@ export function NewsLetter({
     try {
       await onSubmit(email.trim());
       setInternalStatus("success");
-      // On conserve l'email affiché en lecture seule — ne pas reset
     } catch {
       setInternalStatus("error");
     }
   };
 
-  // -- Classes de layout -----------------------------------------------------
-  // Statut final force toujours la colonne pour intercaler le message
-  const rowClass = isStatusFinal
-    ? "bl-newsletter__row--status-final"
-    : layout === "inline"
-    ? "bl-newsletter__row--inline"
-    : "bl-newsletter__row--stacked";
+  // -- Sous-rendus ----------------------------------------------------------
 
-  // Classe du wrapper input pour la bague success
-  const inputWrapClass = [
-    layout === "inline" && !isStatusFinal ? "bl-newsletter__input-wrap" : undefined,
-    status === "success" ? "bl-newsletter__input-success-ring" : undefined,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  /**
+   * Message de feedback.
+   * Stacked → rendu entre Input et Button (voir DOM ci-dessous).
+   * Inline  → rendu sous la row.
+   */
+  const renderMessage = () => {
+    if (!statusMessage || !messageType) return null;
+    return (
+      <p
+        className={`bl-newsletter__message bl-newsletter__message--${messageType}`}
+        role={messageType !== "success" ? "alert" : "status"}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {statusMessage}
+      </p>
+    );
+  };
 
+  const renderInput = () => (
+    <div className={inputWrapClass}>
+      <Input
+        type="email"
+        value={email}
+        onChange={handleChange}
+        placeholder={placeholder}
+        size={size}
+        fullWidth
+        disabled={isLoading}
+        readOnly={isStatic}
+        required
+        aria-label="Adresse email"
+      />
+    </div>
+  );
+
+  const renderButton = () => (
+    <Button
+      variant={buttonVariant}
+      size={size}
+      isLoading={isLoading}
+      disabled={isStatic || isLoading}
+      onClick={handleSubmit}
+      type="submit"
+      fullWidth={layout === "stacked"}
+      style={{ flexShrink: 0 }}
+      aria-label={isLoading ? "Inscription en cours…" : buttonLabel}
+    >
+      {buttonLabel}
+    </Button>
+  );
+
+  // -- Rendu ----------------------------------------------------------------
   return (
     <>
       <style>{styles}</style>
+
+      {/* Live region invisible — lu par les screen readers */}
+      <div
+        id={liveRegionId}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+        }}
+      >
+        {statusMessage ?? ""}
+      </div>
 
       <div
         className={["bl-newsletter", className].filter(Boolean).join(" ")}
@@ -217,7 +274,6 @@ export function NewsLetter({
         role="region"
         aria-label="Inscription à la newsletter"
       >
-        {/* En-tête */}
         {(title || description) && (
           <div className="bl-newsletter__header">
             {title && (
@@ -233,89 +289,25 @@ export function NewsLetter({
           </div>
         )}
 
-        {/* Zone live pour lecteurs d'écran */}
-        <div
-          id={liveRegionId}
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          style={{
-            position: "absolute",
-            width: 1,
-            height: 1,
-            overflow: "hidden",
-            clip: "rect(0,0,0,0)",
-          }}
-        >
-          {finalMessage ?? validationError ?? ""}
-        </div>
-
-        {/* Formulaire — toujours affiché, y compris en statut final */}
-        <div
-          className={rowClass}
-          aria-describedby={description ? descriptionId : undefined}
-        >
-          {/* Input — statique en statut final */}
-          <div className={inputWrapClass || undefined}>
-            <Input
-              type="email"
-              value={email}
-              onChange={handleChange}
-              placeholder={placeholder}
-              size={size}
-              fullWidth
-              // Bordure rouge sans texte sous l'input : hasError découplé
-              anyError={status === "error"}
-              // Texte d'erreur uniquement en mode stacked hors statut final
-              errorText={inputErrorText}
-              // Lecture seule en statut final (pas disabled pour rester sélectionnable)
-              readOnly={isStatusFinal}
-              disabled={isLoading}
-              required
-              aria-label="Adresse email"
-              aria-describedby={isStatusFinal ? statusMsgId : undefined}
-              aria-invalid={status === "error" || Boolean(validationError) ? "true" : undefined}
-            />
+        {/*
+         * STACKED : Input → Message → Button
+         * INLINE  : [Input | Button] → Message sous la row
+         */}
+        {layout === "stacked" ? (
+          <div className="bl-newsletter__row--stacked">
+            {renderInput()}
+            {renderMessage()}
+            {renderButton()}
           </div>
-
-          {/* Message intercalé entre input et bouton (statut final uniquement) */}
-          {isStatusFinal && finalMessage && (
-            <p
-              id={statusMsgId}
-              className={[
-                "bl-newsletter__status-message",
-                status === "error"
-                  ? "bl-newsletter__status-message--error"
-                  : "bl-newsletter__status-message--success",
-              ].join(" ")}
-              role="alert"
-            >
-              {finalMessage}
-            </p>
-          )}
-
-          {/* Bouton */}
-          <Button
-            variant={buttonVariant}
-            size={size}
-            isLoading={isLoading}
-            disabled={isStatusFinal || isLoading}
-            onClick={handleSubmit}
-            type="submit"
-            fullWidth={isStatusFinal || layout === "stacked"}
-            style={{ flexShrink: 0 }}
-            aria-label={isLoading ? "Inscription en cours…" : buttonLabel}
-          >
-            {buttonLabel}
-          </Button>
-
-          {/* Erreur de validation inline (hors statut final) */}
-          {inlineValidationError && (
-            <p className="bl-newsletter__validation-error" role="alert">
-              {inlineValidationError}
-            </p>
-          )}
-        </div>
+        ) : (
+          <>
+            <div className="bl-newsletter__row--inline">
+              {renderInput()}
+              {renderButton()}
+            </div>
+            {renderMessage()}
+          </>
+        )}
       </div>
     </>
   );
