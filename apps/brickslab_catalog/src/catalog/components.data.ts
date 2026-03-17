@@ -11,11 +11,20 @@ export interface ComponentData {
 
 export const componentsData: ComponentData[] = [
   {
+    label: "NewsLetter",
+    href: "/components/newsletter",
+    section: "Sections",
+    type: "web" as const,
+    description: "NewsLetter section",
+    addedAt: "2026-03-17",
+  },
+  {
     label: "Testimonial",
     href: "/components/testimonials",
     section: "Cards",
     type: "web" as const,
     description: "Card component for testimonials",
+    addedAt: "2026-03-17",
   },
   {
     label: "AppShell",

@@ -61,6 +61,10 @@ export * from "./components/catalog/page_hero/PageHero.type";
 // ── Carrousel ─────────────────────────────────────────────────────────────────
 export * from "./components/carrousel/media_carousel/MediaCarousel";
 
+// ── Section ─────────────────────────────────────────────────────────────────
+export * from "./components/sections/newsletter/NewsLetter.type"
+export * from "./components/sections/newsletter/NewsLetter"
+
 // ── Animation ─────────────────────────────────────────────────────────────────
 export * from "./components/animation/marquee/Marquee";
 export * from "./components/animation/marquee/Marquee.type";
