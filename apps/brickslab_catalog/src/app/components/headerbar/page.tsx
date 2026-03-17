@@ -253,7 +253,7 @@ export default function HeaderBarPage() {
         >
           <div aria-hidden className="hb-demo-bg" />
           <HeaderBar
-            logo={<span style={{ fontWeight: 800, letterSpacing: -0.2 }}>BricksLab</span>}
+            logo={<img src="/logo.svg" alt="Logo" style={{ height: 70 }} />}
             title="BricksLab"
             navigation={nav}
             navPosition="center"
@@ -290,7 +290,7 @@ export default function HeaderBarPage() {
             }}
           />
           <HeaderBar
-            logo={<span style={{ fontWeight: 850, letterSpacing: -0.2 }}>BricksLab</span>}
+            logo={<img src="/logo.svg" alt="Logo" style={{ height: 70 }} />}
             title="Store"
             blur
             withBorder
@@ -339,7 +339,7 @@ export default function HeaderBarPage() {
             }}
           />
           <HeaderBar
-            logo={<span style={{ fontWeight: 800 }}>BricksLab</span>}
+            logo={<img src="/logo.svg" alt="Logo" style={{ height: 70 }} />}
             title="Catalog"
             navigation={
               <nav className="hb-demo-links">
