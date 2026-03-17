@@ -11,6 +11,13 @@ export interface ComponentData {
 
 export const componentsData: ComponentData[] = [
   {
+    label: "Testimonial",
+    href: "/components/testimonials",
+    section: "Cards",
+    type: "web" as const,
+    description: "Card component for testimonials",
+  },
+  {
     label: "AppShell",
     href: "/components/appshell",
     section: "Layout & Shell",

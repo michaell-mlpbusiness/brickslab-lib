@@ -1,4 +1,5 @@
 label,section,type,description,href,addedAt
+Testimonial,Cards,web,Card component for testimonials,/components/testimonials,
 AppShell,Layout & Shell,web,Container component for page layout with header sidebar and footer,/components/appshell,
 HeaderBar,Layout & Shell,web,Top navigation and branding header component,/components/headerbar,
 FooterBar,Layout & Shell,web,Footer with links branding and social media,/components/footerbar,
