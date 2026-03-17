@@ -373,6 +373,7 @@ export default function HeaderBarPage() {
       <SectionTitle>Utilisation</SectionTitle>
       <SubLabel>API</SubLabel>
       <CodeBlock code={usageCode} />
+      
     </div>
   );
 }

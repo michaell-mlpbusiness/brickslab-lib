@@ -23,6 +23,25 @@ function cx(...parts: Array<string | undefined | null | false>) {
   return parts.filter(Boolean).join(" ");
 }
 
+function unwrapMobileStack(node: React.ReactNode): React.ReactNode {
+  if (!React.isValidElement(node)) return node;
+
+  const element = node as React.ReactElement<any, any>;
+
+  if (element.type === React.Fragment) {
+    return element.props.children;
+  }
+
+  if (typeof element.type === "string" && (element.type === "div" || element.type === "span")) {
+    const allowedProps = new Set(["children", "style", "className"]);
+    const props = (element.props ?? {}) as Record<string, unknown>;
+    const extraKeys = Object.keys(props).filter((k) => !allowedProps.has(k));
+    if (extraKeys.length === 0) return (props.children as React.ReactNode) ?? null;
+  }
+
+  return node;
+}
+
 function isFullyTransparentColor(value: string) {
   const v = value.trim().toLowerCase();
   if (v === "transparent") return true;
@@ -52,6 +71,7 @@ const MIX_FG_10 = "color-mix(in srgb, var(--color-fg) 10%, transparent)";
 const MIX_FG_22 = "color-mix(in srgb, var(--color-fg) 22%, transparent)";
 const MIX_FG_35 = "color-mix(in srgb, var(--color-fg) 35%, transparent)";
 const MIX_FG_92 = "color-mix(in srgb, var(--color-fg) 92%, transparent)";
+const MIX_BRAND_18 = "color-mix(in srgb, var(--color-brand) 18%, transparent)";
 
 export function HeaderBar({
   logo,
@@ -123,9 +143,9 @@ export function HeaderBar({
     borderBottom: withBorder ? `var(--border-xm) solid ${MIX_FG_08}` : undefined,
     ...(blur
       ? ({
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)"
-        } satisfies React.CSSProperties)
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)"
+      } satisfies React.CSSProperties)
       : null),
     ["--brick-hb-bg" as never]: resolvedBg,
     ["--brick-hb-bg-fallback" as never]: resolvedFallbackBg,
@@ -134,6 +154,12 @@ export function HeaderBar({
 
   const responsiveCss = `
 @media (max-width: ${mobileBreakpoint}px) {
+  .brick-hb__inner {
+    padding: 10px 12px !important;
+    gap: 12px !important;
+    min-height: 52px !important;
+  }
+
   .brick-hb__desktopNav,
   .brick-hb__desktopActions {
     display: none !important;
@@ -141,6 +167,66 @@ export function HeaderBar({
   .brick-hb__burger {
     display: inline-flex !important;
   }
+}
+
+@media (max-width: ${Math.min(420, mobileBreakpoint)}px) {
+  .brick-hb__title {
+    display: none !important;
+  }
+}
+
+.brick-hb__desktopNav {
+  min-width: 0;
+}
+
+.brick-hb__desktopNav > * {
+  min-width: 0;
+}
+`;
+
+  const mobileMenuCss = `
+.brick-hb__mobileNav,
+.brick-hb__mobileActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brick-hb__mobileActions > * {
+  min-width: 0;
+}
+
+.brick-hb__mobileNav nav,
+.brick-hb__mobileNav > nav,
+.brick-hb__mobileNav > * {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brick-hb__mobileNav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  transition: transform 180ms ease, background 180ms ease, opacity 180ms ease;
+  will-change: transform;
+}
+
+.brick-hb__mobileNav a:hover {
+  background: ${MIX_BG_55};
+  transform: translateX(2px);
+  opacity: 1;
+}
+
+.brick-hb__mobileNav a:active {
+  transform: translateX(1px) scale(0.99);
 }
 `;
 
@@ -158,6 +244,14 @@ export function HeaderBar({
     display: "flex",
     alignItems: "center",
     gap: 16,
+    minWidth: 0
+  };
+
+  const centerStyle: React.CSSProperties = {
+    flex: "0 1 auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     minWidth: 0
   };
 
@@ -199,24 +293,26 @@ export function HeaderBar({
 
   const leftNavigation =
     navPosition === "left" && navigation ? (
-      <nav
+      <div
+        role="navigation"
         aria-label="Primary"
         className="brick-hb__desktopNav"
         style={{ display: "flex", minWidth: 0 }}
       >
         {navigation}
-      </nav>
+      </div>
     ) : null;
 
   const rightNavigation =
     navPosition === "right" && navigation ? (
-      <nav
+      <div
+        role="navigation"
         aria-label="Primary"
         className="brick-hb__desktopNav"
         style={{ display: "flex", minWidth: 0 }}
       >
         {navigation}
-      </nav>
+      </div>
     ) : null;
 
   const centerNavigation =
@@ -224,16 +320,14 @@ export function HeaderBar({
       <div
         className="brick-hb__desktopNav"
         style={{
-          position: "absolute",
-          insetInline: 0,
           display: "flex",
           justifyContent: "center",
-          pointerEvents: "none"
+          minWidth: 0
         }}
       >
-        <nav aria-label="Primary" style={{ pointerEvents: "auto" }}>
+        <div role="navigation" aria-label="Primary" style={{ minWidth: 0 }}>
           {navigation}
-        </nav>
+        </div>
       </div>
     ) : null;
 
@@ -255,21 +349,26 @@ export function HeaderBar({
       <style>
         {blur ? BLUR_FALLBACK_CSS : ""}
         {responsiveCss}
+        {mobileMenuCss}
       </style>
 
-      <div style={innerStyle}>
+      <div className="brick-hb__inner" style={innerStyle}>
         <div style={leftStyle}>
           {logoNode || title ? (
             <div style={brandStyle}>
               {logoNode ? <div style={{ flex: "0 0 auto" }}>{logoNode}</div> : null}
-              {title ? <div style={titleStyle}>{title}</div> : null}
+              {title ? (
+                <div className="brick-hb__title" style={titleStyle}>
+                  {title}
+                </div>
+              ) : null}
             </div>
           ) : null}
 
           {leftNavigation}
         </div>
 
-        {centerNavigation}
+        {centerNavigation ? <div style={centerStyle}>{centerNavigation}</div> : null}
 
         <div style={rightStyle}>
           {rightNavigation}
@@ -283,13 +382,15 @@ export function HeaderBar({
           ) : null}
 
           {hasMobileMenu ? (
-            <button
+            <motion.button
               type="button"
               className="brick-hb__burger"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls={menuId}
               onClick={toggleMobileMenu}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 600, damping: 32 }}
               style={{
                 display: "none",
                 alignItems: "center",
@@ -301,27 +402,28 @@ export function HeaderBar({
                 background: blur ? MIX_BG_55 : MIX_BG_95,
                 color: MIX_FG_92,
                 cursor: "pointer",
-                padding: 0
+                padding: 0,
+                willChange: "transform"
               }}
             >
               <span style={{ display: "inline-flex", flexDirection: "column", gap: 4 }}>
                 <motion.span
                   style={burgerLineStyle}
                   animate={mobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                  transition={{ duration: 0.22 }}
+                  transition={{ type: "spring", stiffness: 720, damping: 40 }}
                 />
                 <motion.span
                   style={burgerLineStyle}
                   animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  transition={{ duration: 0.18 }}
+                  transition={{ duration: 0.12, ease: "easeOut" }}
                 />
                 <motion.span
                   style={burgerLineStyle}
                   animate={mobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                  transition={{ duration: 0.22 }}
+                  transition={{ type: "spring", stiffness: 720, damping: 40 }}
                 />
               </span>
-            </button>
+            </motion.button>
           ) : null}
         </div>
       </div>
@@ -334,12 +436,14 @@ export function HeaderBar({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.22 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
               onClick={closeMobileMenu}
               style={{
                 position: "fixed",
                 inset: 0,
                 background: MIX_FG_35,
+                backdropFilter: "blur(6px)",
+                WebkitBackdropFilter: "blur(6px)",
                 willChange: "opacity",
                 zIndex: 1000
               }}
@@ -350,10 +454,15 @@ export function HeaderBar({
               id={menuId}
               role="dialog"
               aria-modal="true"
-              initial={{ opacity: 0, x: 24, scale: 0.985 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 24, scale: 0.985 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, x: 34, rotate: 2, scale: 0.965 }}
+              animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 34, rotate: 2, scale: 0.98 }}
+              transition={{
+                opacity: { duration: 0.16, ease: "easeOut" },
+                x: { type: "spring", stiffness: 520, damping: 38, mass: 0.85 },
+                scale: { type: "spring", stiffness: 520, damping: 38, mass: 0.85 },
+                rotate: { type: "spring", stiffness: 520, damping: 38, mass: 0.85 }
+              }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
               style={{
                 position: "fixed",
@@ -361,12 +470,19 @@ export function HeaderBar({
                 right: 0,
                 bottom: 0,
                 width: "min(360px, 92vw)",
-                background: blur ? resolvedFallbackBg : resolvedBg,
+                backgroundColor: blur ? resolvedFallbackBg : resolvedBg,
+                backgroundImage: `radial-gradient(120% 120% at 8% 0%, ${MIX_BRAND_18}, transparent 55%)`,
                 borderLeft: `var(--border-xm) solid ${MIX_FG_10}`,
                 boxShadow: `0 18px 60px ${MIX_FG_22}`,
                 zIndex: 1001,
                 display: "flex",
                 flexDirection: "column",
+                ...(blur
+                  ? ({
+                    backdropFilter: "blur(12px) saturate(1.2)",
+                    WebkitBackdropFilter: "blur(12px) saturate(1.2)"
+                  } satisfies React.CSSProperties)
+                  : null),
                 willChange: "transform, opacity"
               }}
             >
@@ -390,10 +506,13 @@ export function HeaderBar({
                   <div style={{ fontSize: "var(--fontsize-sm)", fontWeight: 650 }}>Menu</div>
                 )}
 
-                <button
+                <motion.button
                   type="button"
                   onClick={closeMobileMenu}
                   aria-label="Close menu"
+                  whileHover={{ rotate: 90 }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ type: "spring", stiffness: 600, damping: 34 }}
                   style={{
                     width: 40,
                     height: 40,
@@ -406,11 +525,12 @@ export function HeaderBar({
                     justifyContent: "center",
                     color: MIX_FG_92,
                     fontSize: "var(--fontsize-medium)",
-                    lineHeight: 1
+                    lineHeight: 1,
+                    willChange: "transform"
                   }}
                 >
                   ×
-                </button>
+                </motion.button>
               </div>
 
               <div
@@ -423,14 +543,14 @@ export function HeaderBar({
                 }}
               >
                 {navigation ? (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  <div className="brick-hb__mobileNav" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                     {navigation}
                   </div>
                 ) : null}
 
                 {actions ? (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {actions}
+                  <div className="brick-hb__mobileActions" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {unwrapMobileStack(actions)}
                   </div>
                 ) : null}
               </div>
