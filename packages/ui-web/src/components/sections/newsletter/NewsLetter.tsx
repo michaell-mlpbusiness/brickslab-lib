@@ -8,7 +8,7 @@ import { Button, Input } from "../../..";
 // ---------------------------------------------------------------------------
 
 const styles = `
-  .bl-newsletter { box-sizing: border-box; }
+  .bl-newsletter { box-sizing: border-box; bg }
 
   .bl-newsletter__header { margin-bottom: var(--space-3); }
 
