@@ -4,6 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { CodeBlock } from "../../catalog/CodeBlock";
 import { FiPackage, FiSettings, FiCode, FiZap, FiCheckCircle, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
+import uiWebPackage from "@brickslab./ui-web/package.json";
+import themeDefaultPackage from "@brickslab./theme-default/package.json";
+
+const UI_WEB_VERSION = uiWebPackage.version;
+const THEME_DEFAULT_VERSION = themeDefaultPackage.version;
+const INSTALL_COMMAND = `npm install @brickslab./ui-web@${UI_WEB_VERSION} @brickslab./theme-default@${THEME_DEFAULT_VERSION} --legacy-peer-deps`;
 
 // ── Step card ─────────────────────────────────────────────────────────────────
 function StepCard({
@@ -219,7 +225,7 @@ export default function GettingStartedPage() {
               <p style={{ margin: "0 0 8px 0", fontSize: 11, fontWeight: 600, color: "var(--color-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>npm (recommandé)</p>
               <CodeBlock language="bash">
 {`npm install --legacy-peer-deps
-npm install @brickslab./ui-web@2.1.1 @brickslab./theme-default@2.0.0 --legacy-peer-deps`}
+npm install @brickslab./ui-web@${UI_WEB_VERSION} @brickslab./theme-default@${THEME_DEFAULT_VERSION} --legacy-peer-deps`}
               </CodeBlock>
             </div>
           </div>
@@ -346,7 +352,7 @@ npm view @brickslab./theme-default version
 npm install @brickslab./ui-web@latest @brickslab./theme-default@latest --legacy-peer-deps
 
 # Ou mettre à jour vers des versions précises (recommandé en production)
-npm install @brickslab./ui-web@2.1.1 @brickslab./theme-default@2.0.0 --legacy-peer-deps`}
+${INSTALL_COMMAND}`}
             </CodeBlock>
 
             <InfoBox variant="warning">
