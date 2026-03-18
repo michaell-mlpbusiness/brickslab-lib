@@ -205,8 +205,6 @@ export function NewsLetter({
       <p
         className={`bl-newsletter__message bl-newsletter__message--${messageType}`}
         role={messageType !== "success" ? "alert" : "status"}
-        aria-live="polite"
-        aria-atomic="true"
       >
         {statusMessage}
       </p>

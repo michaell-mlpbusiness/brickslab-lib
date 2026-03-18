@@ -1,6 +1,6 @@
 import React from "react";
 
-interface StarRatingProps {
+export interface StarRatingProps {
   value: number;
   max?: number;
   size?: number;
@@ -10,6 +10,7 @@ const STAR_PATH =
   "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z";
 
 export function StarRating({ value, max = 5, size = 14 }: StarRatingProps) {
+  const uid = React.useId();
   const clamped = Math.min(Math.max(value, 0), max);
   const rounded = Math.round(clamped * 2) / 2;
 
@@ -26,7 +27,7 @@ export function StarRating({ value, max = 5, size = 14 }: StarRatingProps) {
       {Array.from({ length: max }, (_, i) => {
         const filled = i < Math.floor(rounded);
         const half = !filled && i < rounded;
-        const gradientId = `half-star-${i}`;
+        const gradientId = `${uid}-half-star-${i}`;
 
         return (
           <svg

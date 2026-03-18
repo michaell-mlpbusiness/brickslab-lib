@@ -1,9 +1,21 @@
 "use client";
 
+import { useState } from "react";
+import Script from "next/script";
 import { NebulaViewer, type NebulaModelOption } from "@brickslab./ui-web";
+import {
+  ComponentHeader,
+  SectionTitle,
+  SubLabel,
+  PropTag,
+  Preview,
+} from "../../../catalog/PageSection";
 import { PropsTable, type PropDef } from "../../../catalog/PropsTable";
 import { CodeBlock } from "../../../catalog/CodeBlock";
-import { ComponentHeader, Preview, SectionTitle } from "../../../catalog/PageSection";
+
+// ---------------------------------------------------------------------------
+// Données de démo
+// ---------------------------------------------------------------------------
 
 const sampleModels: NebulaModelOption[] = [
   {
@@ -16,44 +28,152 @@ const sampleModels: NebulaModelOption[] = [
   },
 ];
 
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
 const props: PropDef[] = [
-  { name: "title", type: "string", default: `"Nebula"`, description: "Main title displayed in the info panel." },
-  { name: "description", type: "string", default: `"Découvrez vos modèles 3D..."`, description: "Short descriptive text under the title." },
-  { name: "ctaLabel", type: "string", default: `"Découvrir"`, description: "Call-to-action label." },
-  { name: "ctaLink", type: "string", default: `"#"`, description: "CTA link URL." },
-  { name: "models", type: "NebulaModelOption[]", required: true, description: "List of 3D models (.glb format) available in the viewer." },
-  { name: "autoRotate", type: "boolean", default: "true", description: "Enable or disable auto-rotation." },
-  { name: "viewerWidth", type: "string", default: `"650px"`, description: "Width of the viewer container." },
-  { name: "haloSize", type: "string", default: `"500px"`, description: "Size of the background halo glow." },
-  { name: "showPauseButton", type: "boolean", default: "true", description: "Show a pause/play button to toggle rotation." },
-  { name: "className", type: "string", description: "Additional CSS class on the wrapper." },
+  {
+    name: "models",
+    type: "NebulaModelOption[]",
+    required: true,
+    description: "Liste des modèles 3D disponibles (.glb). Chaque entrée contient src (URL) et color (couleur du sélecteur).",
+  },
+  {
+    name: "title",
+    type: "string",
+    default: '"Nebula"',
+    description: "Titre principal affiché dans le panneau texte.",
+  },
+  {
+    name: "description",
+    type: "string",
+    default: '"Découvrez vos modèles 3D..."',
+    description: "Texte descriptif affiché sous le titre.",
+  },
+  {
+    name: "ctaLabel",
+    type: "string",
+    default: '"Découvrir"',
+    description: "Libellé du lien d'appel à l'action.",
+  },
+  {
+    name: "ctaLink",
+    type: "string",
+    default: '"#"',
+    description: "URL cible du lien CTA.",
+  },
+  {
+    name: "isRotating",
+    type: "boolean",
+    default: "true",
+    description: "Contrôle la rotation automatique du modèle. À gérer en externe avec onRotateChange.",
+  },
+  {
+    name: "onRotateChange",
+    type: "(rotating: boolean) => void",
+    description: "Callback déclenché quand l'utilisateur clique sur le bouton pause/lecture.",
+  },
+  {
+    name: "selectedModel",
+    type: "string",
+    description: "URL du modèle actif (src). À gérer en externe avec onModelChange.",
+  },
+  {
+    name: "onModelChange",
+    type: "(src: string) => void",
+    description: "Callback déclenché quand l'utilisateur sélectionne un modèle via les pastilles.",
+  },
+  {
+    name: "viewerWidth",
+    type: "string",
+    default: '"650px"',
+    description: "Largeur du container du viewer.",
+  },
+  {
+    name: "haloSize",
+    type: "string",
+    default: '"500px"',
+    description: "Taille du halo lumineux en arrière-plan.",
+  },
+  {
+    name: "showPauseButton",
+    type: "boolean",
+    default: "true",
+    description: "Affiche ou masque le bouton pause/lecture.",
+  },
+  {
+    name: "className",
+    type: "string",
+    description: "Classe CSS additionnelle sur le wrapper racine.",
+  },
 ];
 
-const usageCode = `import { NebulaViewer } from "@brickslab./ui-web";
+// ---------------------------------------------------------------------------
+// Usage
+// ---------------------------------------------------------------------------
 
-const models = [
-  { src: "https://modelviewer.dev/shared-assets/models/Astronaut.glb", color: "#7C3AED" },
+const usageCode = `import { NebulaViewer, type NebulaModelOption } from "@brickslab./ui-web";
+import { useState } from "react";
+
+// Charger le script model-viewer (Next.js)
+import Script from "next/script";
+
+const models: NebulaModelOption[] = [
+  { src: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",      color: "#7C3AED" },
   { src: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb", color: "#0EA5E9" },
 ];
 
-<NebulaViewer
-  title="Nebula"
-  description="Découvrez vos modèles 3D dans une expérience immersive et fluide."
-  ctaLabel="Découvrir"
-  ctaLink="#"
-  models={models}
-/>;`;
+export default function Page() {
+  const [isRotating, setIsRotating]       = useState(true);
+  const [selectedModel, setSelectedModel] = useState(models[0].src);
+
+  return (
+    <>
+      <Script
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"
+        type="module"
+      />
+      <NebulaViewer
+        title="Nebula"
+        description="Découvrez vos modèles 3D dans une expérience immersive et fluide."
+        ctaLabel="Découvrir"
+        ctaLink="#"
+        models={models}
+        isRotating={isRotating}
+        onRotateChange={setIsRotating}
+        selectedModel={selectedModel}
+        onModelChange={setSelectedModel}
+      />
+    </>
+  );
+}`;
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
 
 export default function NebulaViewerPage() {
+  const [isRotating, setIsRotating] = useState(true);
+  const [selectedModel, setSelectedModel] = useState(sampleModels[0].src);
+
   return (
     <div>
+      <Script
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"
+        type="module"
+      />
+
       <ComponentHeader
         name="NebulaViewer"
         section="Animation"
-        description="Viewer 3D basé sur <model-viewer> avec halo, sélecteur de modèles et rotation auto (pause/play)."
+        description="Viewer 3D basé sur &lt;model-viewer&gt; avec halo lumineux, sélecteur de modèles par pastilles colorées et rotation automatique pause/lecture. Nécessite le script @google/model-viewer chargé dans la page."
       />
 
+      {/* ── Aperçu ─────────────────────────────────────────────────── */}
       <SectionTitle>Aperçu</SectionTitle>
+
+      <SubLabel>Viewer interactif — rotation et sélection de modèles (contrôle externe)</SubLabel>
       <Preview
         background="linear-gradient(135deg, rgba(255,255,255,0.95), rgba(245,245,245,0.85))"
         style={{ padding: 0, overflow: "visible" }}
@@ -65,14 +185,40 @@ export default function NebulaViewerPage() {
             ctaLabel="Découvrir"
             ctaLink="#"
             models={sampleModels}
+            isRotating={isRotating}
+            onRotateChange={setIsRotating}
+            selectedModel={selectedModel}
+            onModelChange={setSelectedModel}
           />
         </div>
       </Preview>
 
-      <SectionTitle>Props Table</SectionTitle>
+      <SubLabel>showPauseButton=false · viewerWidth / haloSize personnalisés</SubLabel>
+      <Preview
+        background="linear-gradient(135deg, rgba(255,255,255,0.95), rgba(245,245,245,0.85))"
+        style={{ padding: 0, overflow: "visible" }}
+      >
+        <div style={{ width: "100%" }}>
+          <NebulaViewer
+            title="Sans bouton pause"
+            description="Le contrôle de rotation est masqué."
+            ctaLabel="Explorer"
+            ctaLink="#"
+            models={sampleModels}
+            isRotating
+            viewerWidth="450px"
+            haloSize="360px"
+            showPauseButton={false}
+          />
+        </div>
+      </Preview>
+
+      {/* ── Props ──────────────────────────────────────────────────── */}
+      <SectionTitle>Props</SectionTitle>
       <PropsTable props={props} />
 
-      <SectionTitle>Usage</SectionTitle>
+      {/* ── Utilisation ────────────────────────────────────────────── */}
+      <SectionTitle>Utilisation</SectionTitle>
       <CodeBlock code={usageCode} language="tsx" />
     </div>
   );

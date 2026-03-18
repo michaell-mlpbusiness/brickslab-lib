@@ -99,6 +99,7 @@ export default function TestimonialPage() {
     <div>
       <ComponentHeader
         name="Testimonial"
+        section="Carte"
         description="Carte de témoignage composée d'un LogoMark circulaire, du nom de l'auteur, d'une note en étoiles et d'un commentaire. Le logo affiche le rendu par défaut si aucun imgSrc n'est fourni. Compose LogoMark, StarRating et Text en interne."
       />
 

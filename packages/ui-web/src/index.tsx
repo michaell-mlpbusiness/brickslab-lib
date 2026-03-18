@@ -75,9 +75,9 @@ export * from "./components/animation/animated_list/AnimatedList.type";
 export * from "./components/animation/animated_stack/AnimatedStack";
 export * from "./components/animation/animated_stack/AnimatedStack.type";
 export * from "./components/animation/SignatureDetails/SignatureDetails";
-export * from "./components/animation/SignatureDetails/SignatureDetails.types";
+export * from "./components/animation/SignatureDetails/SignatureDetails.type";
 export * from "./components/animation/NebulaViewer/NebulaViewer";
-export * from "./components/animation/NebulaViewer/NebulaViewer.types";
+export * from "./components/animation/NebulaViewer/NebulaViewer.type";
 
 // ── Content ───────────────────────────────────────────────────────────────────
 export * from "./components/content/project_description_panel/ProjectDescriptionPanel";

@@ -179,6 +179,7 @@ export default function NewsLetterPage() {
     <div>
       <ComponentHeader
         name="NewsLetter"
+        section="Sections"
         description="Champ d'inscription newsletter composé de Input et Button. Gère le cycle loading / success / error en interne via une Promise, ou en externe via la prop status. Deux layouts disponibles : inline (défaut) et stacked. Responsive natif : bascule en colonne sous 480 px."
       />
 
