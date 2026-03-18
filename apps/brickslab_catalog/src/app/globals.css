@@ -2,7 +2,6 @@
 @import url("HearderBar.css");
 @import "@brickslab./token-contract/dist/contract.css";
 @import "@brickslab./theme-default/dist/tokens.css";
-@import "@brickslab./ui-web/dist/index.css";
 @source "../../node_modules/@brickslab./ui-web";
 @source "../../packages/ui-web";
 

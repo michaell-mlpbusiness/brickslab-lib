@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Script from "next/script";
 import { NebulaViewer, type NebulaModelOption } from "@brickslab./ui-web";
 import {
   ComponentHeader,
@@ -116,9 +115,6 @@ const props: PropDef[] = [
 const usageCode = `import { NebulaViewer, type NebulaModelOption } from "@brickslab./ui-web";
 import { useState } from "react";
 
-// Charger le script model-viewer (Next.js)
-import Script from "next/script";
-
 const models: NebulaModelOption[] = [
   { src: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",      color: "#7C3AED" },
   { src: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb", color: "#0EA5E9" },
@@ -129,23 +125,17 @@ export default function Page() {
   const [selectedModel, setSelectedModel] = useState(models[0].src);
 
   return (
-    <>
-      <Script
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"
-        type="module"
-      />
-      <NebulaViewer
-        title="Nebula"
-        description="Découvrez vos modèles 3D dans une expérience immersive et fluide."
-        ctaLabel="Découvrir"
-        ctaLink="#"
-        models={models}
-        isRotating={isRotating}
-        onRotateChange={setIsRotating}
-        selectedModel={selectedModel}
-        onModelChange={setSelectedModel}
-      />
-    </>
+    <NebulaViewer
+      title="Nebula"
+      description="Découvrez vos modèles 3D dans une expérience immersive et fluide."
+      ctaLabel="Découvrir"
+      ctaLink="#"
+      models={models}
+      isRotating={isRotating}
+      onRotateChange={setIsRotating}
+      selectedModel={selectedModel}
+      onModelChange={setSelectedModel}
+    />
   );
 }`;
 
@@ -159,15 +149,10 @@ export default function NebulaViewerPage() {
 
   return (
     <div>
-      <Script
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"
-        type="module"
-      />
-
       <ComponentHeader
         name="NebulaViewer"
         section="Animation"
-        description="Viewer 3D basé sur &lt;model-viewer&gt; avec halo lumineux, sélecteur de modèles par pastilles colorées et rotation automatique pause/lecture. Nécessite le script @google/model-viewer chargé dans la page."
+        description="Viewer 3D basé sur &lt;model-viewer&gt; avec halo lumineux, sélecteur de modèles par pastilles colorées et rotation automatique pause/lecture. Le runtime model-viewer est chargé globalement par le catalogue."
       />
 
       {/* ── Aperçu ─────────────────────────────────────────────────── */}
