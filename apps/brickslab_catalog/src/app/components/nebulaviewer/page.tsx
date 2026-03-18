@@ -21,7 +21,7 @@ const props: PropDef[] = [
   { name: "description", type: "string", default: `"Découvrez vos modèles 3D..."`, description: "Short descriptive text under the title." },
   { name: "ctaLabel", type: "string", default: `"Découvrir"`, description: "Call-to-action label." },
   { name: "ctaLink", type: "string", default: `"#"`, description: "CTA link URL." },
-  { name: "models", type: "NebulaModelOption[]", required: true, description: "List of 3D models available in the viewer." },
+  { name: "models", type: "NebulaModelOption[]", required: true, description: "List of 3D models (.glb format) available in the viewer." },
   { name: "autoRotate", type: "boolean", default: "true", description: "Enable or disable auto-rotation." },
   { name: "viewerWidth", type: "string", default: `"650px"`, description: "Width of the viewer container." },
   { name: "haloSize", type: "string", default: `"500px"`, description: "Size of the background halo glow." },
