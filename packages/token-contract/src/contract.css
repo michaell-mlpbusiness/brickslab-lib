@@ -127,7 +127,6 @@
   --z-drawer: 50;
 }
 /* components/Testimonial/Testimonial.css */
-
 .testimonial-card {
   display: flex;
   flex-direction: column;
@@ -188,7 +187,7 @@
     max-width: 100%;
     padding: var(--space-4);
     border-radius: var(--radius-sm);
-  }
+  };
 }
 
 /* Liste de cards (usage en grille) */
