@@ -27,6 +27,14 @@ export const componentsData: ComponentData[] = [
     addedAt: "2026-03-17",
   },
   {
+    label: "StarRating",
+    href: "/components/starrating",
+    section: "Cards",
+    type: "web" as const,
+    description: "Read-only star rating display with support for half values and configurable icon size",
+    addedAt: "2026-03-18",
+  },
+  {
     label: "AppShell",
     href: "/components/appshell",
     section: "Layout & Shell",

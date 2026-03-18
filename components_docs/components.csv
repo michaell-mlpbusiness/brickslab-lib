@@ -1,6 +1,7 @@
 label,section,type,description,href,addedAt
 NewsLetter,Sections,web,NewsLetter section,/components/newsletter,2026-03-17,
 Testimonial,Cards,web,Card component for testimonials,/components/testimonials,2026-03-17
+StarRating,Cards,web,Read-only star rating display with support for half values and configurable icon size,/components/starrating,2026-03-18
 AppShell,Layout & Shell,web,Container component for page layout with header sidebar and footer,/components/appshell,
 HeaderBar,Layout & Shell,web,Top navigation and branding header component,/components/headerbar,
 FooterBar,Layout & Shell,web,Footer with links branding and social media,/components/footerbar,
