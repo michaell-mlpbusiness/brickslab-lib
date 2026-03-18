@@ -1,10 +1,10 @@
 @layer base, components, utilities;
+@import url("HearderBar.css");
 @import "@brickslab./token-contract/dist/contract.css";
 @import "@brickslab./theme-default/dist/tokens.css";
 @import "@brickslab./ui-web/dist/index.css";
 @source "../../node_modules/@brickslab./ui-web";
 @source "../../packages/ui-web";
-@import url("HearderBar.css");
 
 /* ------------------------------------------------------------
    🌍 Surfaces & Borders (tu les avais déjà — conservés)
@@ -169,5 +169,3 @@ body {
   white-space: nowrap !important;
   border: 0 !important;
 }
-
-
