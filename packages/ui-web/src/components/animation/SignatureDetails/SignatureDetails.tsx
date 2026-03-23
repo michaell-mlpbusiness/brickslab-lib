@@ -32,6 +32,7 @@ const styles = `
     justify-content: flex-end;
     padding: 30px;
     color: white;
+    text-align: center;
   }
   .bl-sig-overlay h3 { font-size: 24px; margin-bottom: 8px; }
   .bl-sig-overlay p  { font-size: 14px; opacity: 0.85; }
@@ -43,6 +44,7 @@ const styles = `
     padding: 20px;
     background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     color: white;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
