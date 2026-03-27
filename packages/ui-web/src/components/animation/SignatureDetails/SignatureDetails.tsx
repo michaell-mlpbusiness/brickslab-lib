@@ -7,63 +7,64 @@ import type { SignatureDetailsProps } from "./SignatureDetails.type";
 // ---------------------------------------------------------------------------
 
 const styles = `
-  .bl-sig-section { background: var(--c-surface, #f8f8f8); }
-  .bl-sig-container { max-width: 1800px; margin: auto; padding: 0 40px; }
+  .bl-sig-section { background: var(--c-surface); }
+  .bl-sig-container { max-width: var(--container-max); margin: auto; padding: 0 var(--spacing-xl); }
   .bl-sig-header {
     text-align: center;
-    max-width: 900px;
-    margin: 0 auto 120px;
+    max-width: var(--content-max);
+    margin: 0 auto var(--spacing-3xl);
   }
-  .bl-sig-header h2 { font-size: clamp(40px, 6vw, 90px); margin-bottom: 20px; }
-  .bl-sig-header p  { font-size: 18px; opacity: 0.7; }
+  .bl-sig-header h2 { font-size: clamp(var(--fontsize-6xl), 6vw, var(--fontsize-8xl)); margin-bottom: var(--spacing-lg); }
+  .bl-sig-header p  { font-size: var(--fontsize-lg); opacity: 0.7; }
   .bl-sig-grid {
     display: grid;
-    gap: 40px;
+    gap: var(--spacing-xl);
     grid-template-columns: repeat(var(--bl-sig-columns, 4), minmax(0, 1fr));
   }
-  .bl-sig-card { position: relative; overflow: hidden; cursor: pointer; }
-  .bl-sig-img-wrap { overflow: hidden; background: #000; }
-  .bl-sig-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .bl-sig-card { position: relative; overflow: hidden; cursor: pointer; will-change: transform; }
+  .bl-sig-img-wrap { overflow: hidden; background: var(--c-surface-inverse); }
+  .bl-sig-img-wrap img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
   .bl-sig-overlay {
     position: absolute;
     inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 30px;
+    padding: var(--spacing-xl);
     color: white;
     text-align: center;
+    will-change: opacity;
   }
-  .bl-sig-overlay h3 { font-size: 24px; margin-bottom: 8px; }
-  .bl-sig-overlay p  { font-size: 14px; opacity: 0.85; }
+  .bl-sig-overlay h3 { font-size: var(--fontsize-xl); margin-bottom: var(--spacing-md); }
+  .bl-sig-overlay p  { font-size: var(--fontsize-sm); opacity: 0.85; }
   .bl-sig-title {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    padding: var(--spacing-lg);
+    background: linear-gradient(to top, var(--c-overlay-dark), transparent);
     color: white;
     text-align: center;
   }
 
-  @media (max-width: 1024px) {
-    .bl-sig-container { padding: 0 24px; }
-    .bl-sig-header { margin: 0 auto 72px; }
+  @media (max-width: var(--breakpoint-lg)) {
+    .bl-sig-container { padding: 0 var(--spacing-md); }
+    .bl-sig-header { margin: 0 auto var(--spacing-2xl); }
     .bl-sig-grid {
-      gap: 24px;
+      gap: var(--spacing-md);
       grid-template-columns: repeat(var(--bl-sig-columns-tablet, 2), minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 640px) {
-    .bl-sig-container { padding: 0 16px; }
-    .bl-sig-header { margin: 0 auto 48px; }
-    .bl-sig-header p { font-size: 16px; }
-    .bl-sig-overlay { padding: 20px; }
-    .bl-sig-overlay h3 { font-size: 20px; }
+  @media (max-width: var(--breakpoint-sm)) {
+    .bl-sig-container { padding: 0 var(--spacing-sm); }
+    .bl-sig-header { margin: 0 auto var(--spacing-xl); }
+    .bl-sig-header p { font-size: var(--fontsize-lg); }
+    .bl-sig-overlay { padding: var(--spacing-lg); }
+    .bl-sig-overlay h3 { font-size: var(--fontsize-lg); }
     .bl-sig-grid {
-      gap: 16px;
+      gap: var(--spacing-md);
       grid-template-columns: repeat(var(--bl-sig-columns-mobile, 1), minmax(0, 1fr));
     }
   }
@@ -88,6 +89,11 @@ const titleVariants = {
   hover: { opacity: 0 },
 };
 
+const cardVariants = {
+  rest: { opacity: 1, y: 0 },
+  hover: { opacity: 1, y: 0 },
+};
+
 // ---------------------------------------------------------------------------
 // Composant
 // ---------------------------------------------------------------------------
@@ -99,12 +105,16 @@ export function SignatureDetails({
   columns = 4,
   cardRadius = "4px",
   sectionPadding = "8rem 0",
-  overlayColor = "rgba(20,20,20,0.9)",
+  overlayColor,
   imageAspectRatio = "3/4",
   className = "",
 }: SignatureDetailsProps) {
   const tabletColumns = Math.min(columns, 2);
   const mobileColumns = 1;
+
+  const overlayStyle = overlayColor
+    ? `linear-gradient(to top, ${overlayColor}, transparent)`
+    : "var(--c-overlay-gradient)";
 
   return (
     <>
@@ -112,7 +122,11 @@ export function SignatureDetails({
 
       <section
         className={`bl-sig-section${className ? ` ${className}` : ""}`}
-        style={{ padding: sectionPadding }}
+        style={{ 
+          padding: sectionPadding,
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <div className="bl-sig-container">
 
@@ -135,7 +149,8 @@ export function SignatureDetails({
                 "--bl-sig-columns": columns,
                 "--bl-sig-columns-tablet": tabletColumns,
                 "--bl-sig-columns-mobile": mobileColumns,
-              } as React.CSSProperties & Record<string, number>
+                display: "grid",
+              } as React.CSSProperties
             }
           >
             {details.map((detail, index) => (
@@ -149,6 +164,7 @@ export function SignatureDetails({
                 animate="rest"
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                variants={cardVariants}
               >
                 <div
                   className="bl-sig-img-wrap"
@@ -159,6 +175,7 @@ export function SignatureDetails({
                     alt={detail.title}
                     variants={imageVariants}
                     draggable={false}
+                    style={{ willChange: "transform" }}
                   />
                 </div>
 
@@ -166,8 +183,9 @@ export function SignatureDetails({
                 <motion.div
                   className="bl-sig-overlay"
                   style={{
-                    background: `linear-gradient(to top, ${overlayColor}, transparent)`,
+                    background: overlayStyle,
                     borderRadius: cardRadius,
+                    willChange: "opacity",
                   }}
                   variants={overlayVariants}
                 >
