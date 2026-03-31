@@ -50,6 +50,7 @@ export const navSections: NavSection[] = [
       { label: "TestResultsCard", href: "/components/testresultscard" },
       { label: "KpiCard", href: "/components/kpicard" },
       { label: "DashboardHero", href: "/components/dashboardhero" },
+      { label: "UserTable", href: "/components/usertable" },
     ],
   },
   {

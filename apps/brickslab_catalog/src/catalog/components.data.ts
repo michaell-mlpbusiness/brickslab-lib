@@ -11,6 +11,14 @@ export interface ComponentData {
 
 export const componentsData: ComponentData[] = [
   {
+    label: "UserTable",
+    href: "/components/usertable",
+    section: "Dashboard",
+    type: "web" as const,
+    description: "User\'s list table",
+    addedAt: "2026-03-31",
+  },
+  {
     label: "NewsLetter",
     href: "/components/newsletter",
     section: "Sections",
