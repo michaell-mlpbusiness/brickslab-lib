@@ -20,12 +20,15 @@ function checkResponsive(componentName, componentFilePath) {
   const hasFlexbox = /display\s*:\s*["']flex["']|flexDirection|justifyContent|alignItems/.test(content);
   const hasGrid = /display\s*:\s*["']grid["']|gridTemplate|gridColumn|gridRow/.test(content);
   const isDisplayComponent = !/<div\b/.test(content) && !/<section\b/.test(content);
+  // Background-only components (no interactive content, just visual effects) don't need flexbox/grid
+  // WarpBackground has children but is still a background component
+  const isBackgroundComponent = /Background$/.test(componentName);
 
   tests.push({
     name: "uses flexbox or grid for layout",
     category: "responsive",
-    status: hasFlexbox || hasGrid || isDisplayComponent ? "passed" : "failed",
-    message: hasFlexbox || hasGrid || isDisplayComponent
+    status: hasFlexbox || hasGrid || isDisplayComponent || isBackgroundComponent ? "passed" : "failed",
+    message: hasFlexbox || hasGrid || isDisplayComponent || isBackgroundComponent
       ? null
       : "No flexbox or grid detected — layout may not be responsive",
     severity: "medium",

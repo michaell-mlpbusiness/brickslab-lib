@@ -68,7 +68,9 @@ function extractHardcodedRgba(content) {
     const val = match[0];
     // rgba(0,0,0,0.x) overlay — warn but not fail
     const isOverlay = /rgba\s*\(\s*0\s*,\s*0\s*,\s*0/.test(val);
-    violations.push({ value: val, isOverlay });
+    // rgba as CSS variable fallback (e.g., var(--c-white, rgba(255,255,255,1))) is acceptable
+    const isCssVarFallback = /var\([^)]*rgba/.test(content.slice(Math.max(0, match.index - 30), match.index + 30));
+    violations.push({ value: val, isOverlay, isCssVarFallback });
   }
   return violations;
 }
@@ -113,7 +115,8 @@ function checkTokens(componentName, componentFilePath) {
 
   // ── 3. Pas de rgba hardcodé non-overlay ──────────────────────────────────
   const rgbaViolations = extractHardcodedRgba(content);
-  const nonOverlayRgba = rgbaViolations.filter((v) => !v.isOverlay);
+  // Exclude overlays and CSS variable fallbacks (acceptable patterns)
+  const nonOverlayRgba = rgbaViolations.filter((v) => !v.isOverlay && !v.isCssVarFallback);
   tests.push({
     name: "no hardcoded rgba colors (non-overlay)",
     category: "tokens",

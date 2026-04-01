@@ -110,7 +110,8 @@ function checkPerf(componentName, componentFilePath) {
 
   // ── 6. will-change manquant sur composants animés ─────────────────────────
   const hasAnimation = /transform|animation|transition/.test(content);
-  const hasWillChange = /will-change/.test(content);
+  // Check for both CSS will-change and React willChange
+  const hasWillChange = /will-change|willChange/.test(content);
   tests.push({
     name: "animated components declare will-change compositor hint",
     category: "perf",

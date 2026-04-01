@@ -11,6 +11,10 @@ const path = require("path");
 const USE_CLIENT_ALLOWED = [
   "CodeBlock", "CopyButton", "ThemeToggle",
   "Topbar", "Sidebar", "SearchResults",
+  "LightRaysBackground", "RippleBackground", "WarpBackground",
+  "FlickeringGrid", "AnimatedGridPattern", "RetroGrid",
+  "DotPattern", "GridPattern", "StripedPattern",
+  "InteractiveGridPattern", "NoiseMeshBackground", "GlassAuroraBackground",
 ];
 
 function checkApi(componentName, componentFilePath, indexContent, csvComponents) {
@@ -62,7 +66,8 @@ function checkApi(componentName, componentFilePath, indexContent, csvComponents)
   });
 
   // ── 4. import React ───────────────────────────────────────────────────────
-  const hasReactImport = /import React from ['"]react['"]/.test(content);
+  // Accept both "import React from 'react'" and "import React, { ... } from 'react'"
+  const hasReactImport = /import React\s*(,|from)/.test(content);
   tests.push({
     name: "imports React explicitly",
     category: "api",

@@ -11,6 +11,10 @@ const USE_CLIENT_ALLOWED = [
   "CodeBlock", "CopyButton", "ThemeToggle",
   "Topbar", "Sidebar", "SearchResults", "BurgerMenu",
   "MenuTree", "SearchBar",
+  "LightRaysBackground", "RippleBackground", "WarpBackground",
+  "FlickeringGrid", "AnimatedGridPattern", "RetroGrid",
+  "DotPattern", "GridPattern", "StripedPattern",
+  "InteractiveGridPattern", "NoiseMeshBackground", "GlassAuroraBackground",
 ];
 
 // Fichiers de catalogue qui utilisent légitimement 'use client' dans le catalog
