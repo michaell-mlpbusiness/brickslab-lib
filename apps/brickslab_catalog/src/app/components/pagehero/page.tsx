@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
-import { PageHero } from "@brickslab./ui-web";
+import { PageHero, PropsTable, CodeBlock, type PropDef } from "@brickslab./ui-web";
 import {
   ComponentHeader,
   SectionTitle,
   Preview,
 } from "../../../catalog/PageSection";
-import { PropsTable, type PropDef } from "../../../catalog/PropsTable";
-import { CodeBlock } from "../../../catalog/CodeBlock";
 
 const props: PropDef[] = [
   { name: "title", type: "string", required: true, description: "Titre principal (h1)." },

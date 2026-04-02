@@ -6,8 +6,8 @@ import {
   SubLabel,
   Preview,
 } from "../../../catalog/PageSection";
-import { PropsTable, type PropDef } from "../../../catalog/PropsTable";
-import { CodeBlock } from "../../../catalog/CodeBlock";
+import { PropsTable, type PropDef } from "@brickslab./ui-web";
+import { CodeBlock } from "@brickslab./ui-web";
 import { ComponentsCountCard } from "@brickslab./ui-web";
 
 const props: PropDef[] = [

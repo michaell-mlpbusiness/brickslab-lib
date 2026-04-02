@@ -1,14 +1,14 @@
 "use client";
 
-import { Sidebar } from "../../../catalog/Sidebar";
+import { Sidebar } from "@brickslab./ui-web";
 import {
   ComponentHeader,
   SectionTitle,
   SubLabel,
   Preview,
 } from "../../../catalog/PageSection";
-import { PropsTable, type PropDef } from "../../../catalog/PropsTable";
-import { CodeBlock } from "../../../catalog/CodeBlock";
+import { PropsTable, type PropDef } from "@brickslab./ui-web";
+import { CodeBlock } from "@brickslab./ui-web";
 
 const props: PropDef[] = [
   {
