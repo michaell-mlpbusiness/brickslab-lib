@@ -239,4 +239,13 @@ export const navSections: NavSection[] = [
       { label: "ProgressiveBlurText", href: "/components/progressiveblurtext" },
     ],
   },
+  {
+    section: "Form",
+    items: [
+      { label: "Form", href: "/components/form" },
+      { label: "FormGroup", href: "/components/formgroup" },
+      { label: "FormError", href: "/components/formerror" },
+      { label: "FormActions", href: "/components/formactions" },
+    ],
+  },
 ];

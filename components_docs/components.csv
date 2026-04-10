@@ -1,5 +1,5 @@
 label,section,type,description,href,addedAt
-UserTable,Dashboard,web,User\'s list table, /components/usertable,2026-03-31,
+UserTable,Dashboard,web,User\'s list table,/components/usertable,2026-03-31,
 NewsLetter,Sections,web,NewsLetter section,/components/newsletter,2026-03-17,
 Testimonial,Cards,web,Card component for testimonials,/components/testimonials,2026-03-17
 StarRating,Cards,web,Read-only star rating display with support for half values and configurable icon size,/components/starrating,2026-03-18
@@ -130,6 +130,10 @@ ShimmerBorderText,Animated Text,web,Text stroke outline with animated shimmer hi
 GlowPulseText,Animated Text,web,Pulsing text glow via text-shadow animation triggered always on hover or on viewport entry,/components/glowpulsetext,
 SegmentEmphasisText,Animated Text,web,Intelligent text segment highlighting with raise glow underline or gradient effects on matched words,/components/segmentemphasistext,
 ProgressiveBlurText,Animated Text,web,Word-by-word blur-to-clear reveal triggered on scroll or viewport with staggered transitions,/components/progressiveblurtext,
+Form,Form,web,Form container with validation support variant and layout options,/components/form,
+FormGroup,Form,web,Field group with label helper text error display and required indicator,/components/formgroup,
+FormError,Form,web,Error summary display with field-level error messages and icon indicator,/components/formerror,
+FormActions,Form,web,Action buttons container with alignment and stacking options,/components/formactions,
 WarpBackground,Backgrounds,web,Animated skew and scale distortion effect with optional radial gradient mask,/components/warpbackground,2026-03-05
 FlickeringGrid,Backgrounds,web,SVG grid cells with flicker animation and customizable cell size and color,/components/flickeringgrid,2026-03-05
 AnimatedGridPattern,Backgrounds,web,Grid lines moving downward creating a continuous flow effect,/components/animatedgridpattern,2026-03-05
