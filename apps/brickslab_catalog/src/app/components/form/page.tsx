@@ -166,7 +166,7 @@ export default function FormPage() {
         </div>
       </Preview>
 
-      <SectionTitle>Cas d'usage : Connexion</SectionTitle>
+      <SectionTitle>Cas d&lsquo;usage : Connexion</SectionTitle>
       <SubLabel>Formulaire simple avec validation</SubLabel>
       <Preview>
         <Form 
@@ -210,8 +210,8 @@ export default function FormPage() {
         </Form>
       </Preview>
 
-      <SectionTitle>Cas d'usage : Inscription</SectionTitle>
-      <SubLabel>Formulaire multi-champs avec différents types d'inputs</SubLabel>
+      <SectionTitle>Cas d&lsquo;usage : Inscription</SectionTitle>
+      <SubLabel>Formulaire multi-champs avec différents types d&lsquo;inputs</SubLabel>
       <Preview>
         <Form 
           onSubmit={() => console.log("Register:", { name, email, role, bio })}
@@ -255,12 +255,12 @@ export default function FormPage() {
           </FormGroup>
           <FormActions align="between">
             <Button variant="secondary">Réinitialiser</Button>
-            <Button type="submit">S'inscrire</Button>
+            <Button type="submit">S&lsquo;inscrire</Button>
           </FormActions>
         </Form>
       </Preview>
 
-      <SectionTitle>Cas d'usage : Paramètres</SectionTitle>
+      <SectionTitle>Cas d&lsquo;usage : Paramètres</SectionTitle>
       <SubLabel>Formulaire horizontal pour paramètres utilisateur</SubLabel>
       <Preview>
         <Form 
